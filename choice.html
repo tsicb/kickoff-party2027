@@ -158,6 +158,121 @@
       text-wrap: balance;
       box-shadow: 0 6px 20px #0002;
     }
+
+    /* Dramatic entrance: animation ends in the existing, stationary reading layout. */
+    .entrance-fx {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      overflow: hidden;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .fx-stage .entrance-fx { visibility: visible; }
+    .entrance-fx::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: radial-gradient(ellipse at center, #fff7d7 0%, #fff1b8a8 18%, #fbc75d52 48%, transparent 78%);
+    }
+    .fx-stage .entrance-fx::before { animation: gold-flash 970ms ease-out both; }
+    .fx-burst {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: min(130vmax, 1800px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      opacity: 0;
+      transform: translate(-50%,-50%) scale(.15);
+      background:
+        radial-gradient(circle, #fffce8 0%, #fff5d6ba 3%, #fbd7794d 10%, transparent 26%),
+        repeating-conic-gradient(from 11deg, #ffe09e00 0deg, #ffe2a045 4deg, #ffe09e00 8deg, transparent 19deg);
+      mask-image: radial-gradient(circle, #000 0%, #000 37%, transparent 70%);
+      mix-blend-mode: screen;
+    }
+    .fx-stage .fx-burst { animation: golden-burst 1120ms cubic-bezier(.13,.61,.2,1) both; }
+    .fx-ring {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 11vmin;
+      height: 11vmin;
+      border: clamp(3px, .65vmin, 9px) solid #fff3c0;
+      border-radius: 50%;
+      opacity: 0;
+      transform: translate(-50%,-50%) scale(.1);
+      box-shadow: 0 0 15px #ffdb72, inset 0 0 22px #ffe7a7, 0 0 80px #ffca6899;
+    }
+    .fx-stage .fx-ring { animation: golden-ring 950ms .14s ease-out both; }
+    .fx-sweep {
+      position: absolute;
+      inset: -90%;
+      opacity: 0;
+      transform: translateX(-65%) rotate(23deg);
+      background: linear-gradient(90deg, transparent 47%, #fff7d900 48%, #ffefb0a1 49.6%, #fffdf2d9 50%, #ffcf6d66 50.4%, transparent 52%);
+      mix-blend-mode: screen;
+    }
+    .fx-stage .fx-sweep { animation: light-sweep 1050ms .24s ease-out both; }
+    .fx-confetti { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .fx-stage .choice--red { animation: red-grand-entrance 1080ms .12s cubic-bezier(.16,.84,.24,1) both; }
+    .fx-stage .choice--blue { animation: blue-grand-entrance 1080ms .27s cubic-bezier(.16,.84,.24,1) both; }
+    .fx-stage .site-head { animation: title-grand-entrance 720ms .75s cubic-bezier(.17,.8,.24,1) both; }
+    .fx-stage .choice .color-label { animation: label-grand-entrance 730ms .87s ease-out both; }
+    .fx-stage .choice .prompt { animation: prompt-grand-entrance 830ms 1.02s cubic-bezier(.17,.76,.24,1) both; }
+    @keyframes gold-flash {
+      0%, 12% { opacity: 0; }
+      28% { opacity: .85; }
+      55% { opacity: .22; }
+      100% { opacity: 0; }
+    }
+    @keyframes golden-burst {
+      0% { opacity: 0; transform: translate(-50%,-50%) scale(.15) rotate(-20deg); }
+      24% { opacity: .98; }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(1.28) rotate(24deg); }
+    }
+    @keyframes golden-ring {
+      0% { opacity: 0; transform: translate(-50%,-50%) scale(.15); }
+      22% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(17); }
+    }
+    @keyframes light-sweep {
+      0% { opacity: 0; transform: translateX(-65%) rotate(23deg); }
+      25% { opacity: .9; }
+      100% { opacity: 0; transform: translateX(65%) rotate(23deg); }
+    }
+    @keyframes red-grand-entrance {
+      0% { opacity: 0; transform: translate3d(-16vw,48px,0) scale(.77) rotate(-5deg); filter: brightness(1.8); }
+      58% { opacity: 1; transform: translate3d(13px,-12px,0) scale(1.035) rotate(1deg); filter: brightness(1.28); }
+      80% { transform: translate3d(-3px,3px,0) scale(.994); }
+      100% { opacity: 1; transform: none; filter: brightness(1); }
+    }
+    @keyframes blue-grand-entrance {
+      0% { opacity: 0; transform: translate3d(16vw,48px,0) scale(.77) rotate(5deg); filter: brightness(1.8); }
+      58% { opacity: 1; transform: translate3d(-13px,-12px,0) scale(1.035) rotate(-1deg); filter: brightness(1.28); }
+      80% { transform: translate3d(3px,3px,0) scale(.994); }
+      100% { opacity: 1; transform: none; filter: brightness(1); }
+    }
+    @keyframes title-grand-entrance {
+      0% { opacity: 0; transform: translateY(-24px) scale(1.12); filter: blur(7px); }
+      65% { opacity: 1; transform: translateY(3px) scale(.99); filter: blur(0); }
+      100% { opacity: 1; transform: none; }
+    }
+    @keyframes label-grand-entrance {
+      0% { opacity: 0; transform: translateY(-18px); }
+      100% { opacity: 1; transform: none; }
+    }
+    @keyframes prompt-grand-entrance {
+      0% { opacity: 0; transform: translateY(42px) scale(.86); filter: blur(6px); }
+      67% { opacity: 1; transform: translateY(-5px) scale(1.02); filter: blur(0); }
+      100% { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .entrance-fx { display: none !important; }
+      .fx-stage .choice, .fx-stage .choice .prompt, .fx-stage .choice .color-label,
+      .fx-stage .site-head { animation: none !important; transform: none !important; filter: none !important; opacity: 1 !important; }
+    }
     @media (max-width: 800px) {
       .wrap { width: min(720px, calc(100% - 26px)); padding-top: 12px; }
       .site-head { min-height: 48px; margin-bottom: 10px; }
@@ -185,6 +300,12 @@
   </style>
 </head>
 <body>
+  <div class="entrance-fx" aria-hidden="true">
+    <div class="fx-burst"></div>
+    <div class="fx-ring"></div>
+    <div class="fx-sweep"></div>
+    <canvas class="fx-confetti" id="fx-confetti"></canvas>
+  </div>
   <main class="wrap">
     <header class="site-head">
       <h1 id="page-title"></h1>
@@ -259,6 +380,94 @@
         if (main.length >= 45) cardText.classList.add("prompt--very-long");
         else if (main.length >= 28) cardText.classList.add("prompt--long");
       }
+    }
+
+    function launchConfetti() {
+      if (!window.requestAnimationFrame) return;
+      const canvas = document.getElementById("fx-confetti");
+      const context = canvas.getContext("2d");
+      if (!context) return;
+
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+      const resize = () => {
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      };
+      resize();
+      window.addEventListener("resize", resize, { passive: true });
+
+      const palette = ["#fff9d8", "#ffda68", "#ffae3e", "#ffffff", "#fa7080", "#6db9ff", "#ffe6a3"];
+      const count = Math.min(200, Math.max(95, Math.round(width / 9)));
+      const centerX = width / 2;
+      const centerY = height * .49;
+      const pieces = Array.from({ length: count }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 240 + Math.random() * 760;
+        return {
+          x: centerX + (Math.random() - .5) * 35,
+          y: centerY + (Math.random() - .5) * 35,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 170,
+          rotation: Math.random() * Math.PI,
+          spin: (Math.random() - .5) * 17,
+          size: 3 + Math.random() * 8,
+          color: palette[Math.floor(Math.random() * palette.length)],
+          shape: Math.random() > .75 ? "spark" : "paper"
+        };
+      });
+      const total = 2650;
+      const startTime = performance.now();
+      let priorTime = startTime;
+
+      const stop = () => {
+        window.removeEventListener("resize", resize);
+        context.clearRect(0, 0, width, height);
+        canvas.width = 0;
+        canvas.height = 0;
+      };
+
+      const frame = (now) => {
+        const elapsed = now - startTime;
+        if (document.hidden || elapsed >= total) { stop(); return; }
+        const seconds = Math.min((now - priorTime) / 1000, .05);
+        priorTime = now;
+        context.clearRect(0, 0, width, height);
+        const fade = Math.max(0, Math.min(1, (total - elapsed) / 650));
+        context.globalAlpha = fade;
+        for (const p of pieces) {
+          p.vx *= Math.pow(.988, seconds * 60);
+          p.vy += 480 * seconds;
+          p.x += p.vx * seconds;
+          p.y += p.vy * seconds;
+          p.rotation += p.spin * seconds;
+          if (p.x < -20 || p.x > width + 20 || p.y > height + 20) continue;
+          context.save();
+          context.translate(p.x, p.y);
+          context.rotate(p.rotation);
+          context.fillStyle = p.color;
+          if (p.shape === "spark") {
+            context.fillRect(-p.size * .18, -p.size, p.size * .36, p.size * 2);
+            context.fillRect(-p.size, -p.size * .18, p.size * 2, p.size * .36);
+          } else {
+            context.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * .65);
+          }
+          context.restore();
+        }
+        context.globalAlpha = 1;
+        window.requestAnimationFrame(frame);
+      };
+      window.requestAnimationFrame(frame);
+    }
+    if (Object.prototype.hasOwnProperty.call(topics, topic) &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.body.classList.add("fx-stage");
+      launchConfetti();
     }
   </script>
 </body>
