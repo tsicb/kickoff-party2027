@@ -331,6 +331,10 @@
     }
     .back:hover { background: #ffdf98; }
     .back:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+    .dialog-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .dialog-actions .back { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 14px; }
+    .dialog-actions .back.secondary { background: transparent; color: #e0e9fc; border: 1px solid #c6d3ea77; }
+    .dialog-actions .back.secondary:hover { background: #ffffff12; }
     @media (max-width: 900px) {
       .shell { width: min(760px, calc(100% - 42px)); }
       .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; }
@@ -397,23 +401,24 @@
   <dialog id="coming-soon" aria-labelledby="dialog-title">
     <span class="dialog-kanji" id="dialog-kanji" aria-hidden="true"></span>
     <h2 id="dialog-title"></h2>
-    <p>このジャンルのページは、次の工程で追加予定です。<br>まずは8つのパネルのデザインをお楽しみください。</p>
-    <button class="back" type="button" id="dialog-close">パネルに戻る</button>
+    <p>赤と青、2つのお題が待っています。<br>次のページで挑戦したいお題を選んでください。</p>
+    <div class="dialog-actions">
+      <button class="back secondary" type="button" id="dialog-close">パネルに戻る</button>
+      <a class="back" id="dialog-next" href="choice.html">お題へ進む →</a>
+    </div>
   </dialog>
   <script>
     const dialog = document.getElementById("coming-soon");
     const kanjiEl = document.getElementById("dialog-kanji");
     const titleEl = document.getElementById("dialog-title");
+    const nextLink = document.getElementById("dialog-next");
     document.querySelectorAll(".tile").forEach((tile) => {
       tile.addEventListener("click", () => {
-        const target = tile.dataset.target;
-        if (target) {
-          window.location.href = new URL(target, document.baseURI).href;
-          return;
-        }
-        kanjiEl.textContent = tile.dataset.kanji;
-        titleEl.textContent = "「" + tile.dataset.kanji + "」を選択";
-        if (typeof dialog.showModal === "function") dialog.showModal();
+        const kanji = tile.dataset.kanji;
+        kanjiEl.textContent = kanji;
+        titleEl.textContent = "「" + kanji + "」を選択";
+        nextLink.href = "choice.html?topic=" + encodeURIComponent(kanji);
+        dialog.showModal();
       });
     });
     document.getElementById("dialog-close").addEventListener("click", () => dialog.close());
