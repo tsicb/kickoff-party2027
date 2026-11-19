@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#090e1d">
   <meta name="description" content="お世話様ですって言うゲーム — 8つの漢字からお題を選ぼう。">
   <title>お世話様ですって言うゲーム | KICKOFF PARTY 2027</title>
+  <link rel="stylesheet" href="navigation.css">
   <style>
     :root {
       color-scheme: dark;
@@ -42,9 +43,10 @@
       justify-content: center;
       gap: clamp(22px, 3.4vh, 35px);
       margin: 0 auto;
-      padding: 32px 0;
+      padding: 32px 0 106px;
     }
     .intro { text-align: center; }
+    .title-line { display: block; white-space: nowrap; }
     .tagline {
       margin: 0;
       color: #f5d18a;
@@ -203,7 +205,7 @@
   <main class="shell">
     <header class="intro">
       <p class="tagline">挨拶だけで、意思疎通の限界を超えろ！</p>
-      <h1>お世話様ですって言うゲーム</h1>
+      <h1><span class="title-line">お世話様です</span><span class="title-line">って言うゲーム</span></h1>
     </header>
     <section class="grid" aria-label="8つのジャンル">
       <button class="tile" type="button" data-kanji="熱" aria-label="「熱」のジャンルを選択"><span class="kanji">熱</span></button>
@@ -216,6 +218,9 @@
       <button class="tile" type="button" data-kanji="達" aria-label="「達」のジャンルを選択"><span class="kanji">達</span></button>
     </section>
   </main>
+  <nav class="page-nav" aria-label="ページ移動">
+    <a class="page-nav__button page-nav__button--back" href="example.html"><span class="page-nav__arrow" aria-hidden="true">←</span><span>戻る</span></a>
+  </nav>
   <dialog id="category-dialog" aria-labelledby="dialog-title">
     <span class="dialog-kanji" id="dialog-kanji" aria-hidden="true"></span>
     <h2 id="dialog-title"></h2>
