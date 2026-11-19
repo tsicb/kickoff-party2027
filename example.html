@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#091122">
   <meta name="description" content="お世話様ですって言うゲームの例題。赤と青、2つのお題。">
   <title>例題 | お世話様ですって言うゲーム</title>
+  <link rel="stylesheet" href="navigation.css">
   <style>
     :root {
       color-scheme: dark;
@@ -28,7 +29,7 @@
       width: min(1660px, calc(100% - 50px));
       min-height: 100svh;
       margin: 0 auto;
-      padding: 20px 0 24px;
+      padding: 20px 0 98px;
     }
     .site-head {
       display: flex;
@@ -191,7 +192,6 @@
   <main class="wrap">
     <header class="site-head">
       <h1>例題</h1>
-      <a class="back example-next" href="categories.html" aria-label="ジャンル選択へ進む" title="ジャンル選択へ進む">→</a>
     </header>
     <section class="versus" aria-label="例題：赤と青のお題">
       <article class="choice choice--red" aria-label="赤の例題">
@@ -210,16 +210,9 @@
       </article>
     </section>
   </main>
-  <script>
-    "use strict";
-    document.addEventListener("keydown", (event) => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
-      if (event.key === "ArrowRight" || (event.key === "Enter" && event.target === document.body)) {
-        window.location.assign("categories.html");
-      } else if (event.key === "ArrowLeft") {
-        window.location.assign("./");
-      }
-    });
-  </script>
+  <nav class="page-nav" aria-label="ページ移動">
+    <a class="page-nav__button page-nav__button--back" href="./"><span class="page-nav__arrow" aria-hidden="true">←</span><span>戻る</span></a>
+    <a class="page-nav__button page-nav__button--next" href="categories.html"><span>進む</span><span class="page-nav__arrow" aria-hidden="true">→</span></a>
+  </nav>
 </body>
 </html>
