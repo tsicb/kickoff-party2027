@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091122">
+  <meta name="description" content="お世話様ですって言うゲームの例題。赤と青、2つのお題。">
+  <title>例題 | お世話様ですって言うゲーム</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, system-ui, sans-serif;
+      color: white;
+      background: #091122;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { min-height: 100%; }
+    body {
+      min-height: 100svh;
+      margin: 0;
+      overflow-x: hidden;
+      background: radial-gradient(ellipse 70% 50% at 50% -25%, #293963, transparent 85%), #091122;
+    }
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      width: min(1660px, calc(100% - 50px));
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: 20px 0 24px;
+    }
+    .site-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      min-height: 58px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(27px, 3vw, 46px);
+      line-height: 1.3;
+      font-weight: 950;
+      letter-spacing: .06em;
+      text-shadow: 0 2px 16px #0007;
+    }
+    .back {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      border: 1px solid #ffffff66;
+      border-radius: 50%;
+      color: white;
+      font: 26px/1 system-ui, sans-serif;
+      text-decoration: none;
+      background: #ffffff16;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back:hover { background: #ffffff2c; }
+    .back:focus-visible { outline: 3px solid #ffe097; outline-offset: 4px; }
+    .versus {
+      display: grid;
+      flex: 1;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(12px, 1.3vw, 20px);
+      align-items: stretch;
+      min-height: 0;
+    }
+    .choice {
+      --light: #f36b73;
+      --dark: #ac2945;
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: min(620px, 78svh);
+      padding: clamp(25px, 2.5vw, 44px);
+      overflow: hidden;
+      border: 1px solid #ffffff8e;
+      border-radius: clamp(15px, 1.6vw, 26px);
+      background:
+        radial-gradient(ellipse 78% 55% at 12% 0%, #ffffff3b 0%, transparent 85%),
+        linear-gradient(145deg, var(--light), var(--dark));
+      box-shadow: inset 0 2px 0 #ffffff45, 0 18px 35px #0007;
+      cursor: default;
+    }
+    .choice::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 9px;
+      border: 1px solid #ffffff3a;
+      border-radius: 17px;
+      pointer-events: none;
+    }
+    .choice::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 540px;
+      height: 540px;
+      right: -245px;
+      bottom: -250px;
+      border: 1px solid #ffffff2b;
+      border-radius: 50%;
+      box-shadow: 0 0 0 80px #ffffff07, 0 0 0 160px #ffffff05;
+      pointer-events: none;
+    }
+    .choice--blue { --light: #54a9f1; --dark: #1c50a5; }
+    .color-label {
+      display: block;
+      flex: none;
+      font-size: clamp(19px, 1.6vw, 29px);
+      font-weight: 900;
+      line-height: 1.3;
+      letter-spacing: .055em;
+    }
+    .prompt {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      text-align: center;
+      padding: 22px 0 28px;
+      text-wrap: pretty;
+    }
+    .prompt-main {
+      display: block;
+      max-width: 100%;
+      font-size: clamp(28px, 2.75vw, 49px);
+      font-weight: 900;
+      line-height: 1.62;
+      letter-spacing: .025em;
+      overflow-wrap: anywhere;
+      text-shadow: 0 3px 10px #0003;
+    }
+    .prompt--long .prompt-main { font-size: clamp(26px, 2.35vw, 42px); line-height: 1.56; }
+    .prompt--very-long .prompt-main { font-size: clamp(24px, 2vw, 37px); line-height: 1.53; }
+    .prompt-phrase {
+      display: inline-block;
+      max-width: 100%;
+      margin-top: clamp(20px, 3vh, 34px);
+      padding: 8px 15px;
+      border: 1px solid #ffffff8e;
+      border-radius: 11px;
+      background: #ffffff29;
+      font-size: clamp(28px, 2.65vw, 48px);
+      font-weight: 950;
+      line-height: 1.55;
+      letter-spacing: .025em;
+      text-wrap: balance;
+      box-shadow: 0 6px 20px #0002;
+    }
+    @media (max-width: 800px) {
+      .wrap { width: min(720px, calc(100% - 26px)); padding-top: 12px; }
+      .site-head { min-height: 48px; margin-bottom: 10px; }
+      h1 { font-size: clamp(25px, 4.5vw, 34px); }
+      .choice { padding: clamp(18px, 2.5vw, 26px); min-height: min(550px, 77svh); }
+      .prompt-main { font-size: clamp(23px, 3.2vw, 30px); }
+      .prompt--long .prompt-main { font-size: clamp(22px, 3vw, 28px); }
+      .prompt--very-long .prompt-main { font-size: clamp(20px, 2.8vw, 26px); }
+      .prompt-phrase { font-size: clamp(21px, 3.2vw, 29px); }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: calc(100% - 24px); padding: 12px 0 16px; }
+      .site-head { margin-bottom: 12px; }
+      h1 { font-size: clamp(24px, 6vw, 34px); }
+      .back { width: 39px; height: 39px; font-size: 24px; }
+      .versus { grid-template-columns: minmax(0, 1fr); gap: 13px; }
+      .choice { min-height: 300px; padding: 24px; }
+      .prompt { padding: 22px 0; }
+      .color-label { font-size: 20px; }
+      .prompt-main { font-size: clamp(24px, 5.7vw, 35px); }
+      .prompt--long .prompt-main { font-size: clamp(23px, 5.2vw, 31px); }
+      .prompt--very-long .prompt-main { font-size: clamp(22px, 4.9vw, 29px); }
+      .prompt-phrase { font-size: clamp(24px, 5.6vw, 34px); }
+    }
+  
+    .example-next { font-size: 29px; }
+    @media (max-width: 620px) { .example-next { font-size: 26px; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="site-head">
+      <h1>例題</h1>
+      <a class="back example-next" href="categories.html" aria-label="ジャンル選択へ進む" title="ジャンル選択へ進む">→</a>
+    </header>
+    <section class="versus" aria-label="例題：赤と青のお題">
+      <article class="choice choice--red" aria-label="赤の例題">
+        <span class="color-label">RED / 赤</span>
+        <div class="prompt">
+          <span class="prompt-main">チャラい</span>
+          <span class="prompt-phrase">「お世話様です」</span>
+        </div>
+      </article>
+      <article class="choice choice--blue" aria-label="青の例題">
+        <span class="color-label">BLUE / 青</span>
+        <div class="prompt">
+          <span class="prompt-main">泣き出しそうな</span>
+          <span class="prompt-phrase">「お世話様です」</span>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script>
+    "use strict";
+    document.addEventListener("keydown", (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
+      if (event.key === "ArrowRight" || (event.key === "Enter" && event.target === document.body)) {
+        window.location.assign("categories.html");
+      } else if (event.key === "ArrowLeft") {
+        window.location.assign("./");
+      }
+    });
+  </script>
+</body>
+</html>
