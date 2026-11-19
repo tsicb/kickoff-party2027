@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#080d1b">
   <meta name="description" content="挨拶だけで、意思疎通の限界を超えろ！ お世話様ですって言うゲーム">
   <title>お世話様ですって言うゲーム | KICKOFF PARTY 2027</title>
+  <link rel="stylesheet" href="navigation.css">
   <style>
     :root {
       color-scheme: dark;
@@ -43,11 +44,11 @@
       align-items: center;
       justify-content: center;
       gap: clamp(15px, 3vh, 32px);
-      padding: clamp(25px, 5vw, 80px);
+      padding: clamp(25px, 5vw, 80px) 20px 106px;
       text-align: center;
       text-decoration: none;
       color: inherit;
-      cursor: pointer;
+      cursor: default;
       -webkit-tap-highlight-color: transparent;
     }
     .launch::before {
@@ -61,7 +62,7 @@
       box-shadow: 0 0 0 80px #ffffff04, 0 0 0 160px #ffffff03;
       pointer-events: none;
     }
-    .launch:focus-visible { outline: 4px solid #f8dc92; outline-offset: -8px; }
+    .title-line { display: block; white-space: nowrap; }
     .tagline {
       margin: 0;
       color: #f5d18a;
@@ -85,23 +86,19 @@
     @media (max-width: 620px) {
       .launch { gap: 22px; padding: 28px 20px; }
       .tagline { font-size: clamp(18px, 5.2vw, 28px); }
-      h1 { font-size: clamp(37px, 10vw, 57px); line-height: 1.42; }
+      h1 { font-size: clamp(28px, 8.4vw, 50px); line-height: 1.42; }
     }
   </style>
 </head>
 <body>
   <main class="stage">
-    <a class="launch" href="example.html" aria-label="例題のページへ進む">
+    <div class="launch">
       <p class="tagline">挨拶だけで、意思疎通の限界を超えろ！</p>
-      <h1>お世話様ですって言うゲーム</h1>
-    </a>
+      <h1><span class="title-line">お世話様です</span><span class="title-line">って言うゲーム</span></h1>
+    </div>
   </main>
-  <script>
-    "use strict";
-    document.addEventListener("keydown", (event) => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
-      if (event.key === "ArrowRight") window.location.assign("example.html");
-    });
-  </script>
+  <nav class="page-nav" aria-label="ページ移動">
+    <a class="page-nav__button page-nav__button--next" href="example.html"><span>進む</span><span class="page-nav__arrow" aria-hidden="true">→</span></a>
+  </nav>
 </body>
 </html>
